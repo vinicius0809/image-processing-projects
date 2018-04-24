@@ -20,7 +20,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArquivo">
@@ -38,12 +38,19 @@
       <string>Filtros - Imagem Monocromática</string>
      </property>
      <addaction name="actionMedia"/>
+     <addaction name="actionMediana"/>
+     <addaction name="actionMinimo"/>
+     <addaction name="actionMaximo"/>
+     <addaction name="actionGaussiano"/>
     </widget>
     <widget class="QMenu" name="menuImagem_colorida">
      <property name="title">
       <string>Imagem colorida</string>
      </property>
      <addaction name="actionBrilho"/>
+     <addaction name="actionEqualiza_o_de_HistogramaHSV"/>
+     <addaction name="actionFiltro_MedianaHSV"/>
+     <addaction name="actionFiltro_GaussianoHSV"/>
     </widget>
     <addaction name="actionNegativo"/>
     <addaction name="actionAjuste_de_Contraste"/>
@@ -118,6 +125,41 @@
   <action name="actionBrilho">
    <property name="text">
     <string>Brilho</string>
+   </property>
+  </action>
+  <action name="actionMediana">
+   <property name="text">
+    <string>Mediana</string>
+   </property>
+  </action>
+  <action name="actionMinimo">
+   <property name="text">
+    <string>Minimo</string>
+   </property>
+  </action>
+  <action name="actionMaximo">
+   <property name="text">
+    <string>Maximo</string>
+   </property>
+  </action>
+  <action name="actionGaussiano">
+   <property name="text">
+    <string>Gaussiano</string>
+   </property>
+  </action>
+  <action name="actionEqualiza_o_de_HistogramaHSV">
+   <property name="text">
+    <string>Equalizaçao de Histograma</string>
+   </property>
+  </action>
+  <action name="actionFiltro_MedianaHSV">
+   <property name="text">
+    <string>Filtro Mediana</string>
+   </property>
+  </action>
+  <action name="actionFiltro_GaussianoHSV">
+   <property name="text">
+    <string>Filtro Gaussiano</string>
    </property>
   </action>
  </widget>

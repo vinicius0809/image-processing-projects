@@ -1,3 +1,5 @@
+// Nome: Flávio Vinícius Martins dos Santos -- RA: 1477048
+
 #ifndef PDI_H
 #define PDI_H
 #include <iostream>
@@ -24,6 +26,13 @@ class PDI
         void equalizacaoHistograma();
         void filtroMedia();
         void brilhoHSV();
+        void filtroMediana();
+        void filtroMinimo();
+        void filtroMaximo();
+        void filtroGaussiano();
+        void equalizacaoHistogramaHSV();
+        void filtroMedianaHSV();
+        void filtroGaussianoHSV();
 
         //atributos
         Mat imagemRGB;

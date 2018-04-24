@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[11];
-    char stringdata0[323];
+    QByteArrayData data[18];
+    char stringdata0[554];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,7 +41,14 @@ QT_MOC_LITERAL(6, 143, 38), // "on_actionAjuste_de_Contraste_..."
 QT_MOC_LITERAL(7, 182, 44), // "on_actionTransformacao_Logari..."
 QT_MOC_LITERAL(8, 227, 44), // "on_actionTransformacao_de_Pot..."
 QT_MOC_LITERAL(9, 272, 24), // "on_actionMedia_triggered"
-QT_MOC_LITERAL(10, 297, 25) // "on_actionBrilho_triggered"
+QT_MOC_LITERAL(10, 297, 26), // "on_actionMediana_triggered"
+QT_MOC_LITERAL(11, 324, 25), // "on_actionMinimo_triggered"
+QT_MOC_LITERAL(12, 350, 25), // "on_actionMaximo_triggered"
+QT_MOC_LITERAL(13, 376, 28), // "on_actionGaussiano_triggered"
+QT_MOC_LITERAL(14, 405, 25), // "on_actionBrilho_triggered"
+QT_MOC_LITERAL(15, 431, 46), // "on_actionEqualiza_o_de_Histog..."
+QT_MOC_LITERAL(16, 478, 36), // "on_actionFiltro_MedianaHSV_tr..."
+QT_MOC_LITERAL(17, 515, 38) // "on_actionFiltro_GaussianoHSV_..."
 
     },
     "MainWindow\0on_actionAbrir_Imagem_triggered\0"
@@ -52,7 +59,14 @@ QT_MOC_LITERAL(10, 297, 25) // "on_actionBrilho_triggered"
     "on_actionTransformacao_Logaritmica_triggered\0"
     "on_actionTransformacao_de_Potencia_triggered\0"
     "on_actionMedia_triggered\0"
-    "on_actionBrilho_triggered"
+    "on_actionMediana_triggered\0"
+    "on_actionMinimo_triggered\0"
+    "on_actionMaximo_triggered\0"
+    "on_actionGaussiano_triggered\0"
+    "on_actionBrilho_triggered\0"
+    "on_actionEqualiza_o_de_HistogramaHSV_triggered\0"
+    "on_actionFiltro_MedianaHSV_triggered\0"
+    "on_actionFiltro_GaussianoHSV_triggered"
 };
 #undef QT_MOC_LITERAL
 
@@ -62,7 +76,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -70,17 +84,31 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   59,    2, 0x08 /* Private */,
-       3,    0,   60,    2, 0x08 /* Private */,
-       4,    0,   61,    2, 0x08 /* Private */,
-       5,    0,   62,    2, 0x08 /* Private */,
-       6,    0,   63,    2, 0x08 /* Private */,
-       7,    0,   64,    2, 0x08 /* Private */,
-       8,    0,   65,    2, 0x08 /* Private */,
-       9,    0,   66,    2, 0x08 /* Private */,
-      10,    0,   67,    2, 0x08 /* Private */,
+       1,    0,   94,    2, 0x08 /* Private */,
+       3,    0,   95,    2, 0x08 /* Private */,
+       4,    0,   96,    2, 0x08 /* Private */,
+       5,    0,   97,    2, 0x08 /* Private */,
+       6,    0,   98,    2, 0x08 /* Private */,
+       7,    0,   99,    2, 0x08 /* Private */,
+       8,    0,  100,    2, 0x08 /* Private */,
+       9,    0,  101,    2, 0x08 /* Private */,
+      10,    0,  102,    2, 0x08 /* Private */,
+      11,    0,  103,    2, 0x08 /* Private */,
+      12,    0,  104,    2, 0x08 /* Private */,
+      13,    0,  105,    2, 0x08 /* Private */,
+      14,    0,  106,    2, 0x08 /* Private */,
+      15,    0,  107,    2, 0x08 /* Private */,
+      16,    0,  108,    2, 0x08 /* Private */,
+      17,    0,  109,    2, 0x08 /* Private */,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -108,7 +136,14 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 5: _t->on_actionTransformacao_Logaritmica_triggered(); break;
         case 6: _t->on_actionTransformacao_de_Potencia_triggered(); break;
         case 7: _t->on_actionMedia_triggered(); break;
-        case 8: _t->on_actionBrilho_triggered(); break;
+        case 8: _t->on_actionMediana_triggered(); break;
+        case 9: _t->on_actionMinimo_triggered(); break;
+        case 10: _t->on_actionMaximo_triggered(); break;
+        case 11: _t->on_actionGaussiano_triggered(); break;
+        case 12: _t->on_actionBrilho_triggered(); break;
+        case 13: _t->on_actionEqualiza_o_de_HistogramaHSV_triggered(); break;
+        case 14: _t->on_actionFiltro_MedianaHSV_triggered(); break;
+        case 15: _t->on_actionFiltro_GaussianoHSV_triggered(); break;
         default: ;
         }
     }
@@ -140,13 +175,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 16;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 16)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 16;
     }
     return _id;
 }

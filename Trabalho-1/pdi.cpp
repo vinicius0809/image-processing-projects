@@ -1,4 +1,7 @@
+// Nome: Flávio Vinícius Martins dos Santos -- RA: 1477048
+
 #include "pdi.h"
+#include <algorithm>
 
 
 PDI::PDI()
@@ -21,7 +24,7 @@ void PDI::carregarImagem(String filename)
     //exibe a imagem na janela
     imshow("Imagem Original", imagemRGB);
     }
-    else;
+
     //CONVERSAO PARA ESCALA DE CINZA
     cvtColor(imagemRGB,imagemCINZA,COLOR_BGR2GRAY);
     //exibe a imagem cinza na janela
@@ -176,10 +179,9 @@ void PDI::equalizacaoHistograma()
             nivel = (int)imagemCINZA.at<uchar>(x,y);
             h[nivel] += 1;
         }
-    imshow("Transf de Potencia ", imagemCINZA);
 
     Mat eqHist = imagemCINZA.clone();
-    double p[256], pa[256], ha[256], han[256];
+    double p[256], pa[256];
     int s[256];
     // Histograma normalizado e histograma normalizado acumulado
     for (int i=0; i<256; i++){
@@ -232,6 +234,178 @@ void PDI::filtroMedia()
      imshow("Filtro da Media", g);
 }
 
+void PDI::filtroMediana(){
+    Mat f = imagemCINZA.clone();
+    Mat g = imagemCINZA.clone();
+    uchar mascara[9];
+    //percorre a imagem inteira
+    for(int x=0;x<f.rows;x++)
+    {
+        for(int y=0;y<f.cols;y++)
+        {
+            //percorre uma mascara 3x3
+            int m = 0;
+            for(int i=-1; i<2; i++)
+            {
+                for(int j=-1; j<2; j++)
+                {
+                    //caso pixels da mascara estejam fora dos limites da imagem
+                    //usa-se espelhamento de pixels
+                    if(((x+i)<0 && (y+j)<0)||((x+i)>=f.rows && (y+j)>=f.cols)) mascara[m] = f.at<uchar>(x-i,y-j);
+                    else if(((x+i)<0)||((x+i)>=f.rows)) mascara[m] = f.at<uchar>(x-i,y+j);
+                    else if(((y+i)<0)||((y+i)>=f.cols)) mascara[m] = f.at<uchar>(x+i,y-j);
+                    //caso todos os pixels da mascara estejam dentro dos limites da imagem
+                    else mascara[m] = f.at<uchar>(x+i,y+j);
+                    m++;
+                }
+            }
+            std::sort(mascara, mascara+9);
+            g.at<uchar>(x,y)=mascara[4];
+        }
+    }
+    //exibe a imagem na janela
+    imshow("Filtro da Mediana", g);
+}
+
+void PDI::filtroMinimo(){
+    Mat f = imagemCINZA.clone();
+    Mat g = imagemCINZA.clone();
+    uchar mascara[9];
+    //percorre a imagem inteira
+    for(int x=0;x<f.rows;x++)
+    {
+        for(int y=0;y<f.cols;y++)
+        {
+            //percorre uma mascara 3x3
+            int m = 0;
+            for(int i=-1; i<2; i++)
+            {
+                for(int j=-1; j<2; j++)
+                {
+                    //caso pixels da mascara estejam fora dos limites da imagem
+                    //usa-se espelhamento de pixels
+                    if(((x+i)<0 && (y+j)<0)||((x+i)>=f.rows && (y+j)>=f.cols)) mascara[m] = f.at<uchar>(x-i,y-j);
+                    else if(((x+i)<0)||((x+i)>=f.rows)) mascara[m] = f.at<uchar>(x-i,y+j);
+                    else if(((y+i)<0)||((y+i)>=f.cols)) mascara[m] = f.at<uchar>(x+i,y-j);
+                    //caso todos os pixels da mascara estejam dentro dos limites da imagem
+                    else mascara[m] = f.at<uchar>(x+i,y+j);
+                    m++;
+                }
+            }
+            std::sort(mascara, mascara+9);
+            g.at<uchar>(x,y)=mascara[0];
+        }
+    }
+    //exibe a imagem na janela
+    imshow("Filtro Mínimo", g);
+}
+
+void PDI::filtroMaximo(){
+    Mat f = imagemCINZA.clone();
+    Mat g = imagemCINZA.clone();
+    uchar mascara[9];
+    //percorre a imagem inteira
+    for(int x=0;x<f.rows;x++)
+    {
+        for(int y=0;y<f.cols;y++)
+        {
+            //percorre uma mascara 3x3
+            int m = 0;
+            for(int i=-1; i<2; i++)
+            {
+                for(int j=-1; j<2; j++)
+                {
+                    //caso pixels da mascara estejam fora dos limites da imagem
+                    //usa-se espelhamento de pixels
+                    if(((x+i)<0 && (y+j)<0)||((x+i)>=f.rows && (y+j)>=f.cols)) mascara[m] = f.at<uchar>(x-i,y-j);
+                    else if(((x+i)<0)||((x+i)>=f.rows)) mascara[m] = f.at<uchar>(x-i,y+j);
+                    else if(((y+i)<0)||((y+i)>=f.cols)) mascara[m] = f.at<uchar>(x+i,y-j);
+                    //caso todos os pixels da mascara estejam dentro dos limites da imagem
+                    else mascara[m] = f.at<uchar>(x+i,y+j);
+                    m++;
+                }
+            }
+            std::sort(mascara, mascara+9);
+            g.at<uchar>(x,y)=mascara[8];
+        }
+    }
+    //exibe a imagem na janela
+    imshow("Filtro Máximo", g);
+}
+
+void PDI::filtroGaussiano(){
+
+    // Preenche a mascara gaussiana
+    uchar gaussiana[25];
+    int m = 0;
+
+    for (int i = 0; i<5; i++){
+        for (int j = 0; j<5; j++){
+            if(i==0 || i==4){
+                if(j==0 || j==4)
+                    gaussiana[m] = 1;
+
+                else if(j==1 || j==3)
+                    gaussiana[m] = 4;
+
+                else if(j==2)
+                    gaussiana[m] = 7;
+            }
+            else if(i==1 || i==3){
+                if(j==0 || j==4)
+                    gaussiana[m] = 4;
+
+                else if(j==1 || j==3)
+                    gaussiana[m] = 16;
+
+                else if(j==2)
+                    gaussiana[m] = 26;
+            }
+            else if(i==2){
+                if(j==0 || j==4)
+                    gaussiana[m] = 7;
+
+                else if(j==1 || j==3)
+                    gaussiana[m] = 26;
+
+                else if(j==2)
+                    gaussiana[m] = 41;
+            }
+            m++;
+        }
+    }
+
+    Mat f = imagemCINZA.clone();
+    Mat g = imagemCINZA.clone();
+
+    //percorre a imagem inteira
+    for(int x=0;x<f.rows;x++)
+    {
+        for(int y=0;y<f.cols;y++)
+        {
+            int soma = 0;
+            m = 0;
+            //percorre uma mascara 5x5
+            for(int i=-1; i<4; i++)
+            {
+                for(int j=-1; j<4; j++)
+                {
+                    //caso pixels da mascara estejam fora dos limites da imagem
+                    //usa-se espelhamento de pixels
+                    if(((x+i)<0 && (y+j)<0)||((x+i)>=f.rows && (y+j)>=f.cols)) soma += f.at<uchar>(x-i,y-j)*gaussiana[m];
+                    else if(((x+i)<0)||((x+i)>=f.rows)) soma += f.at<uchar>(x-i,y+j)*gaussiana[m];
+                    else if(((y+i)<0)||((y+i)>=f.cols)) soma += f.at<uchar>(x+i,y-j)*gaussiana[m];
+                    //caso todos os pixels da mascara estejam dentro dos limites da imagem
+                    else soma += f.at<uchar>(x+i,y+j)*gaussiana[m];
+                    m++;
+                }
+            }
+            g.at<uchar>(x,y)=soma/273;
+        }
+    }
+    imshow("Filtro Gaussiana", g);
+}
+
 void PDI::brilhoHSV()
 {
     Mat imagemHSV;
@@ -263,4 +437,192 @@ void PDI::brilhoHSV()
     cvtColor(imagemHSV, imagemSaida, CV_HSV2BGR);
     //exibe a imagem RGB na janela
     imshow("Ajuste de Brilho", imagemSaida);
+}
+
+void PDI::equalizacaoHistogramaHSV(){
+    Mat imagemHSV;
+    //converte uma imagem RGB para HSV
+    cvtColor(imagemRGB, imagemHSV, CV_BGR2HSV);
+    vector<Mat> planosHSV;
+    //divide a imagem HSV em 3 planos de pixels
+    split(imagemHSV, planosHSV);
+    //obtem apenas o plano V
+    Mat V = planosHSV[2];
+    Mat f;
+    V.copyTo(f);
+
+    //HISTOGRAMA - IMAGEM EM ESCALA DE CINZA
+    int h[256];
+    //inicia o vetor com zeros
+    for(int i=0;i<256;i++) h[i]=0;
+    //calcula a distribuicao dos niveis de cinza
+    int nivel = 0;
+    for(int x=0;x<f.rows;x++)
+        for(int y=0;y<f.cols;y++)
+        {
+            nivel = (int)f.at<uchar>(x,y);
+            h[nivel] += 1;
+        }
+
+    Mat eqHist = f;
+    double p[256], pa[256];
+    int s[256];
+    // Histograma normalizado e histograma normalizado acumulado
+    for (int i=0; i<256; i++){
+        p[i] = (double)h[i]/(f.rows*f.cols);
+
+        if (i==0) pa[i]=p[i];
+
+        else pa[i] = p[i]+pa[i-1];
+
+        s[i] = round(255*pa[i]);
+    }
+
+    for(int x=0;x<f.rows;x++)
+        for (int y=0; y<f.cols;y++)
+            V.at<uchar>(x,y) = s[f.at<uchar>(x,y)];
+
+    //combina os 3 planos de pixels (H,S,V) novamente
+    merge(planosHSV,imagemHSV);
+    Mat imagemSaida;
+    //converte uma imagem HSV para RGB
+    cvtColor(imagemHSV, imagemSaida, CV_HSV2BGR);
+    //exibe a imagem RGB na janela
+    imshow("Equalização de Histograma HSV", imagemSaida);
+
+}
+
+void PDI::filtroMedianaHSV(){
+    Mat imagemHSV;
+    //converte uma imagem RGB para HSV
+    cvtColor(imagemRGB, imagemHSV, CV_BGR2HSV);
+    vector<Mat> planosHSV;
+    //divide a imagem HSV em 3 planos de pixels
+    split(imagemHSV, planosHSV);
+    //obtem apenas o plano V
+    Mat V = planosHSV[2];
+    Mat f;
+    V.copyTo(f);
+    uchar mascara[9];
+
+    //percorre a imagem inteira
+    for(int x=0;x<f.rows;x++)
+    {
+        for(int y=0;y<f.cols;y++)
+        {
+            //percorre uma mascara 3x3
+            int m = 0;
+            for(int i=-1; i<2; i++)
+            {
+                for(int j=-1; j<2; j++)
+                {
+                    //caso pixels da mascara estejam fora dos limites da imagem
+                    //usa-se espelhamento de pixels
+                    if(((x+i)<0 && (y+j)<0)||((x+i)>=f.rows && (y+j)>=f.cols)) mascara[m] = f.at<uchar>(x-i,y-j);
+                    else if(((x+i)<0)||((x+i)>=f.rows)) mascara[m] = f.at<uchar>(x-i,y+j);
+                    else if(((y+i)<0)||((y+i)>=f.cols)) mascara[m] = f.at<uchar>(x+i,y-j);
+                    //caso todos os pixels da mascara estejam dentro dos limites da imagem
+                    else mascara[m] = f.at<uchar>(x+i,y+j);
+                    m++;
+                }
+            }
+            std::sort(mascara, mascara+9);
+            V.at<uchar>(x,y)=mascara[4];
+        }
+    }
+
+    //combina os 3 planos de pixels (H,S,V) novamente
+    merge(planosHSV,imagemHSV);
+    Mat imagemSaida;
+    //converte uma imagem HSV para RGB
+    cvtColor(imagemHSV, imagemSaida, CV_HSV2BGR);
+    //exibe a imagem RGB na janela
+    imshow("Filtro Mediana HSV", imagemSaida);
+
+}
+
+void PDI::filtroGaussianoHSV(){
+    // Preenche a mascara gaussiana
+    uchar gaussiana[25];
+    int m = 0;
+
+    for (int i = 0; i<5; i++){
+        for (int j = 0; j<5; j++){
+            if(i==0 || i==4){
+                if(j==0 || j==4)
+                    gaussiana[m] = 1;
+
+                else if(j==1 || j==3)
+                    gaussiana[m] = 4;
+
+                else if(j==2)
+                    gaussiana[m] = 7;
+            }
+            else if(i==1 || i==3){
+                if(j==0 || j==4)
+                    gaussiana[m] = 4;
+
+                else if(j==1 || j==3)
+                    gaussiana[m] = 16;
+
+                else if(j==2)
+                    gaussiana[m] = 26;
+            }
+            else if(i==2){
+                if(j==0 || j==4)
+                    gaussiana[m] = 7;
+
+                else if(j==1 || j==3)
+                    gaussiana[m] = 26;
+
+                else if(j==2)
+                    gaussiana[m] = 41;
+            }
+            m++;
+        }
+    }
+
+    Mat imagemHSV;
+    //converte uma imagem RGB para HSV
+    cvtColor(imagemRGB, imagemHSV, CV_BGR2HSV);
+    vector<Mat> planosHSV;
+    //divide a imagem HSV em 3 planos de pixels
+    split(imagemHSV, planosHSV);
+    //obtem apenas o plano V
+    Mat V = planosHSV[2];
+    Mat f;
+    V.copyTo(f);
+
+    //percorre a imagem inteira
+    for(int x=0;x<f.rows;x++)
+    {
+        for(int y=0;y<f.cols;y++)
+        {
+            int soma = 0;
+            int m = 0;
+            //percorre uma mascara 5x5
+            for(int i=-1; i<4; i++)
+            {
+                for(int j=-1; j<4; j++)
+                {
+                    //caso pixels da mascara estejam fora dos limites da imagem
+                    //usa-se espelhamento de pixels
+                    if(((x+i)<0 && (y+j)<0)||((x+i)>=f.rows && (y+j)>=f.cols)) soma += f.at<uchar>(x-i,y-j)*gaussiana[m];
+                    else if(((x+i)<0)||((x+i)>=f.rows)) soma += f.at<uchar>(x-i,y+j)*gaussiana[m];
+                    else if(((y+i)<0)||((y+i)>=f.cols)) soma += f.at<uchar>(x+i,y-j)*gaussiana[m];
+                    //caso todos os pixels da mascara estejam dentro dos limites da imagem
+                    else soma += f.at<uchar>(x+i,y+j)*gaussiana[m];
+                    m++;
+                }
+            }
+            V.at<uchar>(x,y)=soma/273;
+        }
+    }
+    //combina os 3 planos de pixels (H,S,V) novamente
+    merge(planosHSV,imagemHSV);
+    Mat imagemSaida;
+    //converte uma imagem HSV para RGB
+    cvtColor(imagemHSV, imagemSaida, CV_HSV2BGR);
+    //exibe a imagem RGB na janela
+    imshow("Filtro Gaussiano HSV", imagemSaida);
 }

@@ -1,3 +1,5 @@
+// Nome: Flávio Vinícius Martins dos Santos -- RA: 1477048
+
 #include "mainwindow.h"
 #include <QApplication>
 
